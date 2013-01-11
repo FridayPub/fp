@@ -12,7 +12,8 @@
     <head>
     	<meta charset="UTF-8">
     	<link rel="stylesheet" href="../css/friday_pub.css">
-    	<link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>FridayPub</title>
     </head>
     <body>

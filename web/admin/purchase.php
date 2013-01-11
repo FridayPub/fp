@@ -38,7 +38,7 @@
             }
 
             foreach ($qres as $inventory_item) {
-                $beer_name = $inventory_item["name"];
+                $beer_name = $inventory_item["namn"] . " " . $inventory_item["namn2"];
                 $beer_id = $inventory_item["beer_id"];
 
                 printf("<option value = %d> %s </option>", 
@@ -49,6 +49,41 @@
     </select>
     <input type="submit" name="submit" value="Register"/>
 </form>
+
+<?php
+
+    /*
+     * Returns the array of purchase data
+     */
+    function getPurchases($db) {
+        $qres;
+            try {
+            $qres = $db->purchases_get_all();
+        } catch (FPDB_Exception $e) {
+            die($e->getMessage());
+        }
+        return $qres;
+    }
+
+    function formatPurchases($qres)
+    {
+    global $db;
+        $p_table = "";
+        $p_table .= "<div class=\"tablewrapper\">";
+        $p_table .= "<h2>Purchases</h2>";
+        $p_table .= "<table class=\"history\">";
+        foreach ($qres as $purchase)
+        {
+            $p_table .= sprintf("<tr><th>%s</th><td>%s %s (%s)</td><td>%s %s (%d)</td><td class=\"right\">%d&nbsp;kr</td></tr>",
+                $purchase["timestamp"], $purchase["first_name"], $purchase["last_name"], $purchase["username"], $purchase["namn"], $purchase["namn2"], $purchase["beer_id"], $db->pub_price($purchase["price"]));
+        }
+        $p_table .= "</table>";
+        $p_table .= "</div>";
+
+        return $p_table;
+    }
+?>
+
 
 
 <?php
@@ -62,6 +97,10 @@
             die($e->getMessage());
         }
     }
+
+    $purchases = getPurchases($db);
+    echo formatPurchases($purchases);
+
     include_once "footer.php"; 
 ?>
 

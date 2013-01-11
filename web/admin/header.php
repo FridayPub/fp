@@ -15,7 +15,8 @@
     	<meta charset="UTF-8">
     	<link rel="stylesheet" href="../css/friday_pub.css">
     	<link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>FridayPub Banks of Bros's</title>
     </head>
     <body>

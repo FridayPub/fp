@@ -48,4 +48,39 @@
         printf("Bro in above drop-down menu has payed up %d kr.<br> Pub sez KTHXBYE.\n", $amount);
     }
     include_once "footer.php"; 
+
+
+    /*
+     * Returns the array of payment data
+     */
+    function getPayments($db) {
+        $qres;
+            try {
+            $qres = $db->payments_get_all();
+        } catch (FPDB_Exception $e) {
+            die($e->getMessage());
+        }
+        return $qres;
+    }
+
+    function formatPayments($qres)
+    {
+        $p_table = "";
+        $p_table .= "<div class=\"tablewrapper\">";
+        $p_table .= "<h2>Payments</h2>";
+        $p_table .= "<table class=\"history\">";
+        foreach ($qres as $payment)
+        {
+            $p_table .= sprintf("<tr><th>%s</th><td>%s %s (%s)</td><td class=\"right\">%d kr</td><td>[%s]</td></tr>",
+                $payment["timestamp"], $payment["first_name"], $payment["last_name"], $payment["username"], $payment["amount"], $payment["admin_username"]);
+        }
+        $p_table .= "</table>";
+        $p_table .= "</div>";
+
+        return $p_table;
+    }
+
+    $payments = getPayments($db);
+
+    echo formatPayments($payments);
 ?>

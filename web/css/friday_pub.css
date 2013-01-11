@@ -171,11 +171,11 @@ a:hover { color: #036; }
 
 body {
 	font-family: 'Fredoka One';
-	font-size: 2em;
+	font-size: 1em;
 	color: #227596;
 	background: #90ecff;
 	margin-left:1em;
-	width:32em;
+    width: 32em;
 }
 
 h1 {
@@ -205,7 +205,7 @@ form {
 select, input, textarea, button {
 	font-family: 'Fredoka One';
 	color: #227596;
-	}
+}
 
 input {
 	margin: 0.2em;
@@ -214,12 +214,6 @@ input {
 	-moz-border-radius: 10px;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
-}
-
-radio {
-	height:30px;
-	width:30px;
-	background-image:("images/radio.png");
 }
 
 table {
@@ -316,6 +310,14 @@ input.beer_amount {
 
 input.beer_price {
 	width:3em;
+}
+
+input[type="radio"] {
+    display:none;
+}
+
+input[type="radio"]:checked + label, label:hover {
+    background: #F092A5;
 }
 
 /**
