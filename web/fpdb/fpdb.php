@@ -402,25 +402,17 @@
 
             $this->query($q);
         }
-
-        public function sbl_nuke()
-        {
-            $this->query("TRUNCATE TABLE sbl_beer");
-	}
-	
     };
 
     /* Temporarily putting this functionality here */
     function sbl_insert_snapshot($fpdb, $filename)
     {
-        $fpdb->sbl_nuke();
-
         $sbl_beers = simplexml_load_file($filename);
         if (!$sbl_beers) {
             /* When/If this function is moved throw something more appropriate */
             throw new FPDB_Exception("Error: sbl_insert_snapshot: simplexml_load_file failed");
         }
-
+        
         foreach ($sbl_beers->artikel as $beer) {
             $fpdb->sbl_append($beer);
         }

@@ -15,10 +15,13 @@ wget $URL -O $XML_FILE
 [ "$?" == "0" ] || print_and_exit "wget"
 
 # Setup soft link to point to latest version
-rm sbl-latest.xml 2>/dev/null
+rm ../xml/sbl-latest.xml 2>/dev/null
 ln -s $XML_FILE sbl-latest.xml
 
 # Remove double quotes around strings
 sed 's#&quot;##g' -i $XML_FILE
 [ "$?" == "0" ] || print_and_exit "sed"
+
+mv $XML_FILE ../xml/$XML_FILE
+mv $XML_LINK ../xml/$XML_LINK
 

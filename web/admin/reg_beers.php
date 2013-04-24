@@ -30,13 +30,6 @@
         </div>
 </form>
 
-<!-- DOES NOT WORK!
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-    Update database with the lastest info from systembolaget:
-    <input type="submit" name="submit_sbl" value="update"/>
-</form>
--->
-
 <br><br>
 <table>
     <tr>
@@ -70,6 +63,11 @@
 <br>
 <br>
 
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+    If necessary, fetch new xml-data from systembolaget:
+    <input type="submit" name="submit_sbl" value="Update"/>
+</form>
+
 <script type="text/javascript">
 	$(".beer_amount").blur(function () {
 		//create next line
@@ -84,7 +82,8 @@
     if (isset($_POST["submit_sbl"])) {
         try {
             /* Hardcode file path for now. */
-            sbl_insert_snapshot($db, "../sbl-latest.xml");
+            exec('bash ../tools/fetch_sbl_xml.sh');
+            sbl_insert_snapshot($db, "../xml/sbl-latest.xml");
         } catch (FPDB_Exception $e) {
             die($e->getMessage());
         }
