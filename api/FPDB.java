@@ -27,13 +27,13 @@ public class FPDB
     public Reply<IOUReply> IOUGet() throws FPDBException
     {
         String reply = httpGet(url + "&action=iou_get_all");
-        return new Reply<IOUReply>(reply, new IOUReplyFactory(), "iou_get");
+        return new Reply<IOUReply>(reply, new IOUReplyFactory(), "iou_get_all");
     }
 
     public Reply<IOUUserReply> IOUUserGet() throws FPDBException
     {
         String reply = httpGet(url + "&action=iou_get");
-        return new Reply<IOUUserReply>(reply, new IOUUserReplyFactory(), "iou_get_all");
+        return new Reply<IOUUserReply>(reply, new IOUUserReplyFactory(), "iou_get");
     }
 
 
