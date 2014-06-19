@@ -54,7 +54,7 @@
     /* Not all servers at uni have json_encode, hence this wrapper */
     function my_json_encode($reply)
     {
-        if (function_exists(json_encode)) {
+        if (function_exists('json_encode')) {
             return json_encode($reply);
         } else {
             $json = "{\"type\" : \"$reply->type\", \"payload\" : [";
