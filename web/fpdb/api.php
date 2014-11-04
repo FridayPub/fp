@@ -134,6 +134,40 @@
         return new API_Reply("empty");
     }
 
+    function action_user_append($db, $new_username,
+        $new_password, $first_name, $last_name, $email, $phone)
+    {
+        if (!$new_username || !$new_password || !$first_name 
+            || !$last_name || !$email || !$phone) {
+            return_error(ERROR_ARGUMENTS);
+        }
+        //Check if user already exists
+        try {
+            $user_check = $db->user_get($new_username)->current();
+        } catch (FPDB_Exception $e) {
+            return_error(ERROR_DATABASE);
+        }
+
+        if (!$user_check) {
+            $db->user_append($new_username, $new_password, 
+                $first_name, $last_name, $email, $phone);
+            return new API_Reply("User $new_username added");
+        }
+        else {
+            $db->user_update($new_username, $new_password, 
+                $first_name, $last_name, $email, $phone);
+            return new API_Reply("User $new_username updated");
+        }
+    }    
+
+    function action_inventory_append($db, $user_id, $beer_id, $amount, $price)
+    {
+        if (!$beer_id || !$amount || !$price) {
+            return_error(ERROR_ARGUMENTS);
+        }
+        $db->inventory_append($user_id, $beer_id, $amount, $price);
+        return new API_Reply("empty");
+    }    
 
     function action_iou_get($db, $user_id)
     {
@@ -192,6 +226,12 @@
     /* Perform requested action */
     try {
         switch ($action) {
+            case "beer_data_get":
+                //currently not used. Need to think about password passing in javascript // huh?
+                check_credentials($cred, CRED_USER);
+                $reply = action_beer_data_get($db, $_GET["beer_id"]);
+                break;
+
             case "inventory_get":
                 check_credentials($cred, CRED_USER);
                 $reply = action_inventory_get($db, $user);
@@ -200,11 +240,6 @@
             case "purchases_get":
                 check_credentials($cred, CRED_USER);
                 $reply = action_purchases_get($db, $user);
-                break;
-
-            case "purchases_get_all":
-                check_credentials($cred, CRED_ADMIN);
-                $reply = action_purchases_get_all($db, $user);
                 break;
 
             case "purchases_append":
@@ -217,29 +252,45 @@
                 $reply = action_payments_get($db, $user);
                 break;
 
-            case "payments_get_all":
-                check_credentials($cred, CRED_ADMIN);
-                $reply = action_payments_get_all($db, $user);
-                break;
-
-            case "payments_append";
-                check_credentials($cred, CRED_ADMIN);
-                $reply = action_payments_append($db, $user);
-                break;
-
             case "iou_get":
                 check_credentials($cred, CRED_USER);
                 $reply = action_iou_get($db, $user);
+                break;
+
+            //Not very nice to break the style of not passing data as arguments
+            //but it's kind of ugly to read _GETs inside functions..
+            //Todo: pick one style and make all functions adhere to it
+            case "user_edit":
+                check_credentials($cred, CRED_ADMIN);
+                $reply = action_user_append($db, $_GET["new_username"], 
+                    $_GET["new_password"], $_GET["first_name"], 
+                    $_GET["last_name"], $_GET["email"], $_GET["phone"]);
+                break;
+
+            case "inventory_append":
+                check_credentials($cred, CRED_ADMIN);         
+                $reply = action_inventory_append($db, $user, 
+                    $_GET["beer_id"], $_GET["amount"], $_GET["price"]);
                 break;
 
             case "iou_get_all":
                 check_credentials($cred, CRED_ADMIN);
                 $reply = action_iou_get_all($db, $user);
                 break;
-            case "beer_data_get":
-                //currently not used. Need to think about password passing in javascript
-                check_credentials($cred, CRED_USER);
-                $reply = action_beer_data_get($db, $_GET["beer_id"]);
+
+            case "payments_get_all":
+                check_credentials($cred, CRED_ADMIN);
+                $reply = action_payments_get_all($db, $user);
+                break;
+
+            case "payments_append":
+                check_credentials($cred, CRED_ADMIN);
+                $reply = action_payments_append($db, $user);
+                break;
+
+            case "purchases_get_all":
+                check_credentials($cred, CRED_ADMIN);
+                $reply = action_purchases_get_all($db, $user);
                 break;
 
             default:
