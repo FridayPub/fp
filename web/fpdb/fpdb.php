@@ -329,6 +329,14 @@
             $this->query($q);
         }
 
+        public function user_update($username, $password, $first_name, $last_name, $email, $phone)
+        {
+            $q = sprintf("UPDATE users SET
+                 password='".md5($password)."', first_name='".$first_name."', last_name='".$last_name."', email='".$email."', phone='".$phone."'"
+                 ."WHERE username='".$username."'");
+            $this->query($q);
+        }
+
         public function payments_append($user_id, $admin_id, $amount)
         {
             $q = sprintf("INSERT INTO payments
@@ -359,6 +367,8 @@
                     Namn,
                     Namn2,
                     Prisinklmoms,
+                    Volymiml,
+                    PrisPerLiter,
                     Saljstart,
                     Slutlev,
                     Varugrupp,
@@ -382,6 +392,8 @@
                     \"$beer->Namn\",
                     \"$beer->Namn2\",
                     \"$beer->Prisinklmoms\",
+                    \"$beer->Volymiml\",
+                    \"$beer->PrisPerLiter\",
                     \"$beer->Saljstart\",
                     \"$beer->Slutlev\",
                     \"$beer->Varugrupp\",
