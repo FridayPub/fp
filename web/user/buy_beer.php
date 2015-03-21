@@ -38,12 +38,13 @@
     foreach ($qres as $inventory_item) {
         $beer_name = $inventory_item["namn"];
         $beer_name .= " ".$inventory_item["namn2"];
+	$beer_size = $inventory_item["size"];
         $beer_id = $inventory_item["beer_id"];
         $beer_price = $inventory_item["pub_price"] ;
         $beer_count = $inventory_item["count"];
         if ($beer_count > 0)
-            printf("<input id=\"$beer_id\" type=\"radio\" name=\"beer_id\" value=%d><label for=\"$beer_id\"> <span style=\"color: #f092a5\">&bull;</span> %s, %d kr (%d left)</label><br>", 
-            $beer_id, $beer_name, $beer_price, $beer_count);
+            printf("<input id=\"$beer_id\" type=\"radio\" name=\"beer_id\" value=%d><label for=\"$beer_id\"> <span style=\"color: #f092a5\">&bull;</span> %s (%s ml) %d kr, %d left</label><br>", 
+            $beer_id, $beer_name, $beer_size, $beer_price, $beer_count);
     }
     printf("<br><input class=\"login\" type=\"submit\" name=\"submit\" value=\"BUY!\"/>");
     printf("</form>");
