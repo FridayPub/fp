@@ -9,7 +9,7 @@
     }
 
    /* Record beer purchase in the database. */
-    if (isset($_POST["submit"])) {
+    if (isset($_POST["submit"]) && isset($_POST["beer_id"])) {
         $user_id = $_SESSION["user_id"];
         $beer_id = $_POST["beer_id"];
 
@@ -19,8 +19,12 @@
             die($e->getMessage());
         }
 
-        printf("One large beer sold to %s %s<br/>",
+        printf("One large beverage sold to %s %s<br>",
             $_SESSION["first_name"], $_SESSION["last_name"]);
+    } else if (isset($_POST["submit"])) {
+	printf("Please select desired beverage first<br>");
+    } else {
+	printf("Select desired beverage and press the buy-button<br>");
     }
   
     /* Print radio buttons, one for each beer on inventory. */
@@ -41,7 +45,7 @@
             printf("<input id=\"$beer_id\" type=\"radio\" name=\"beer_id\" value=%d><label for=\"$beer_id\"> <span style=\"color: #f092a5\">&bull;</span> %s, %d kr (%d left)</label><br>", 
             $beer_id, $beer_name, $beer_price, $beer_count);
     }
-    printf("<input class=\"login\" type=\"submit\" name=\"submit\" value=\"BUY!\"/>");
+    printf("<br><input class=\"login\" type=\"submit\" name=\"submit\" value=\"BUY!\"/>");
     printf("</form>");
 
     include_once "footer.php"; 
