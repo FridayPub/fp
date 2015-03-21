@@ -30,6 +30,21 @@
         }
         return $qres;
     }
+
+    /*
+    * Returns the IOU balance
+    */
+    function getIOU($db, $user_id) {
+	$qres;
+	    try {
+	    $qres = $db->iou_get($user_id);
+	} catch (FPDB_Exception $e) {
+	    die($e->getMessage());
+	}
+	foreach ($qres as $iou) { // Actually only a single row of results
+	    return $iou["assets"];
+	}
+    }
     
     function formatPurchases($qres)
     {
@@ -41,7 +56,7 @@
         foreach ($qres as $purchase)
         {
             $p_table .= sprintf("<tr><th>%s</th><td>%s %s (%d)</td><td class=\"right\">%d&nbsp;kr</td></tr>",
-                $purchase["timestamp"], $purchase["namn"], $purchase["namn2"], $purchase["beer_id"], $db->pub_price($purchase["price"]));
+                $purchase["timestamp"], $purchase["namn"], $purchase["namn2"], $purchase["beer_id"], $purchase["price_out"]);
         }  
         $p_table .= "</table>";
         $p_table .= "</div>";
@@ -73,14 +88,10 @@
         die($e->getMessage());
     }
     
-    $assets = 0;
+    $assets = getIOU($db, $user_id);
 
     $purchases = getPurchases($db, $user_id);
-    foreach ($purchases as $p)
-        $assets -= $db->pub_price($p["price"]);
     $payments = getPayments($db, $user_id);
-    foreach ($payments as $p)
-        $assets += $p["amount"];
         
     if ($assets >= 0) {
         printf("<div class=\"assets\"><h1>I'm good!</h1>");

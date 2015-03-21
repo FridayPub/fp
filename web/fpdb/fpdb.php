@@ -102,9 +102,13 @@
             return new FPDB_Results($results);
         }
 
-    	public function pub_price($sbl_price) {
-	        return (floor(($sbl_price + 1.0) / 5) + 1.01) * 5;
-	    }
+	/*
+	* Deprecated due to PHP's inability to do math.
+	*
+    	* public function pub_price($sbl_price) {
+	*        return (floor(($sbl_price + 1.0) / 5) + 1.01) * 5;
+	*    }
+	*/
     };
 
 
@@ -185,7 +189,8 @@
             	SELECT * FROM (
             		SELECT
             			beers_sold.*,
-            			beers_bought.price
+            			beers_bought.price price_in,
+				fp_price(beers_bought.price) price_out
             		FROM beers_sold LEFT JOIN beers_bought
             		ON beers_bought.beer_id = beers_sold.beer_id
             		WHERE beers_sold.timestamp > beers_bought.timestamp
@@ -201,7 +206,8 @@
                 SELECT * FROM (
                     SELECT
                         beers_sold.*,
-                        beers_bought.price,
+                        beers_bought.price price_in,
+			fp_price(beers_bought.price) price_out,
                         users.first_name, 
                         users.last_name, 
                         users.username
@@ -396,14 +402,14 @@
                     Ekologisk,
                     Koscher
                 ) VALUES (
-                    \"$beer->nr\",
-                    \"$beer->Artikelid\",
-                    \"$beer->Varnummer\",
+                    $beer->nr,
+                    $beer->Artikelid,
+                    $beer->Varnummer,
                     \"$beer->Namn\",
                     \"$beer->Namn2\",
-                    \"$beer->Prisinklmoms\",
-                    \"$beer->Volymiml\",
-                    \"$beer->PrisPerLiter\",
+                    $beer->Prisinklmoms,
+                    $beer->Volymiml,
+                    $beer->PrisPerLiter,
                     \"$beer->Saljstart\",
                     \"$beer->Slutlev\",
                     \"$beer->Varugrupp\",
@@ -418,8 +424,8 @@
                     \"$beer->Alkoholhalt\",
                     \"$beer->Modul\",
                     \"$beer->Sortiment\",
-                    \"$beer->Ekologisk\",
-                    \"$beer->Koscher\"
+                    $beer->Ekologisk,
+                    $beer->Koscher
                 )";
 
             $this->query($q);
