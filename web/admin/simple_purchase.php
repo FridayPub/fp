@@ -77,7 +77,7 @@
         foreach ($qres as $purchase)
         {
             $p_table .= sprintf("<tr><th>%s</th><td>%s %s (%s)</td><td>%s %s (%d)</td><td class=\"right\">%d&nbsp;kr</td></tr>",
-                $purchase["timestamp"], $purchase["first_name"], $purchase["last_name"], $purchase["username"], $purchase["namn"], $purchase["namn2"], $purchase["beer_id"], $db->pub_price($purchase["price"]));
+                $purchase["timestamp"], $purchase["first_name"], $purchase["last_name"], $purchase["username"], $purchase["namn"], $purchase["namn2"], $purchase["beer_id"], $purchase["price_out"]);
         }
         $p_table .= "</table>";
         $p_table .= "</div>";
