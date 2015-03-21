@@ -103,7 +103,7 @@
         }
 
     	public function pub_price($sbl_price) {
-	        return (floor(($sbl_price + 1.0) / 5) + 1) * 5;
+	        return (floor(($sbl_price + 1.0) / 5) + 1.01) * 5;
 	    }
     };
 
@@ -354,6 +354,16 @@
                           $user_id, $beer_id, $amount, $price);
             $this->query($q);
         }
+
+	public function inventory_check_latest()
+        {
+            $q = sprintf("SELECT beer_id, amount, price, namn, namn2 
+                        FROM `beers_bought` JOIN `sbl_beer` 
+                        ON sbl_beer.nr = beers_bought.beer_id 
+                        WHERE `timestamp` > curdate()
+                        ORDER BY `transaction_id` DESC");
+            return $this->query($q);
+        }	
 
     	public function sbl_append($beer)
         {

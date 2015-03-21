@@ -38,7 +38,7 @@
         $beer_price = $inventory_item["pub_price"] ;
         $beer_count = $inventory_item["count"];
         if ($beer_count > 0)
-            printf("<input id=\"$beer_id\" type=\"radio\" name=\"beer_id\" value=%d><label for=\"$beer_id\"> <span style=\"color: #f092a5\">&bull;</span> %s, %d kr (%d kvar)</label></br>", 
+            printf("<input id=\"$beer_id\" type=\"radio\" name=\"beer_id\" value=%d><label for=\"$beer_id\"> <span style=\"color: #f092a5\">&bull;</span> %s, %d kr (%d left)</label><br>", 
             $beer_id, $beer_name, $beer_price, $beer_count);
     }
     printf("<input class=\"login\" type=\"submit\" name=\"submit\" value=\"BUY!\"/>");

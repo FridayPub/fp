@@ -31,16 +31,18 @@
 </form>
 
 <br><br>
+<h2>Entries today:</h2>
 <table>
     <tr>
-        <th>Beer</th>
+	<th>ID</th>
         <th>Amount</th>
         <th>Price</th>
+        <th>Name</th>
     </tr>
 
     <?php
         try {
-            $qres = $db->inventory_get_all();
+            $qres = $db->inventory_check_latest();
         } catch (FPDB_Exception $e) {
             die($e->getMessage());
         }
@@ -49,13 +51,12 @@
         foreach ($qres as $inventory_item) {
             $beer_name = $inventory_item["namn"];
             $beer_name .= " ".$inventory_item["namn2"];
-            $beer_sbl_price = $inventory_item["sbl_price"];
-            $beer_fp_price = $inventory_item["pub_price"];
+            $beer_sbl_price = $inventory_item["price"];
             $beer_id = $inventory_item["beer_id"];
-            $count = $inventory_item["count"];
+            $amount = $inventory_item["amount"];
 
-            printf("<tr><td>%s (%s)</td><td>%d</td><td>%d (%.2f)</td></tr>",
-                $beer_name, $beer_id, $count, $beer_fp_price, $beer_sbl_price);
+            printf("<tr><td>%s</td><td>%d</td><td>%.2f</td><td>%s</td></tr>",
+                $beer_id, $amount, $beer_sbl_price, $beer_name);
         }
     ?>
 
