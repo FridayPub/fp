@@ -11,6 +11,7 @@
 
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <select name = "user_id">
+	<option value = "choose"> --- Choose user --- </option>
 
         <?php
             /* User dropdown */
@@ -28,7 +29,8 @@
 
     </select>
     <select name = "beer_id">
-        
+       <option value = "choose"> --- Choose beverage --- </option>
+
         <?php
             /* Beer dropdown */
             try {
@@ -89,17 +91,20 @@
 
 
 <?php
-    if (isset($_POST["submit"])) {
+    if (isset($_POST["submit"]) && ($_POST["user_id"] === "choose" || $_POST["beer_id"] === "choose")) {
+        printf("Please choose both user and beverage before trying to complete purhase<br>");
+    } else if (isset($_POST["submit"])) {
         $admin_id = $_SESSION["user_id"];
         extract($_POST);
 
         try {
             $db->purchases_append($user_id, $beer_id);
+	    printf("Purchase successful<br>");
         } catch (FPDB_Exception $e) {
             die($e->getMessage());
         }
     }
-
+ 
     $purchases = getPurchases($db);
     echo formatPurchases($purchases);
 
