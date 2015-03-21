@@ -21,7 +21,7 @@
             <option value="0">&nbsp;* Select user *&nbsp;</option>
             <?php
             foreach ($qres as $user) {
-                if ($_POST["user_id"] == $user["user_id"])
+                if (isset($_POST["user_id"]) && $_POST["user_id"] == $user["user_id"])
                     printf("<option value = %d selected=\"selected\"> %s %s </option>",
                         $user["user_id"], $user["first_name"], $user["last_name"]);
                 else
