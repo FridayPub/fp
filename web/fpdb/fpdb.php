@@ -112,7 +112,7 @@
     {
 	    protected $inventory_q = "
 	    SELECT NAMED.*, price FROM (
-	    	SELECT namn, namn2, prisinklmoms AS sbl_price, fp_price(prisinklmoms) AS pub_price, BEERS.beer_id, BEERS.count FROM
+	    	SELECT namn, namn2, volymiml AS size, prisinklmoms AS sbl_price, fp_price(prisinklmoms) AS pub_price, BEERS.beer_id, BEERS.count FROM
            		sbl_beer
             RIGHT JOIN (
     			SELECT beer_id, SUM(count) AS count FROM

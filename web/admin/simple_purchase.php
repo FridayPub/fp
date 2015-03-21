@@ -36,15 +36,16 @@
             } catch (FPDB_Exception $e) {
                 die($e->getMessage());
             }
-
-            foreach ($qres as $inventory_item) {
+	    foreach ($qres as $inventory_item) {
                 $beer_name = $inventory_item["namn"] . " " . $inventory_item["namn2"];
+                $beer_size = $inventory_item["size"] . " ml";
+                $beer_price = $inventory_item["pub_price"] . " kr";
                 $beer_id = $inventory_item["beer_id"];
-                $beer_count = $inventory_item["count"];
-                if ($beer_count > 0)
-                    printf("<option value = %d> %s </option>", 
-                        $beer_id, $beer_name);
-            }
+
+                printf("<option value = %d> %s (%s) %s </option>",
+                    $beer_id, $beer_name, $beer_size, $beer_price);
+            }	
+
         ?>
 
     </select>
