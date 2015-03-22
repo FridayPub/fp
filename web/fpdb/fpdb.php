@@ -363,10 +363,10 @@
 
 	public function inventory_check_latest()
         {
-            $q = sprintf("SELECT beer_id, amount, price, namn, namn2 
+            $q = sprintf("SELECT beer_id, amount, price, namn, namn2, timestamp
                         FROM `beers_bought` JOIN `sbl_beer` 
                         ON sbl_beer.nr = beers_bought.beer_id 
-                        WHERE `timestamp` > curdate()
+                        WHERE `timestamp` > date((SELECT max(timestamp) FROM `beers_bought`))
                         ORDER BY `transaction_id` DESC");
             return $this->query($q);
         }	

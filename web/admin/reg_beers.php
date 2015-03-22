@@ -31,13 +31,14 @@
 </form>
 
 <br><br>
-<h2>Entries today:</h2>
+<h2>Latest entries:</h2>
 <table>
     <tr>
 	<th>ID</th>
         <th>Amount</th>
         <th>Price</th>
         <th>Name</th>
+	<th>Time</th>
     </tr>
 
     <?php
@@ -54,9 +55,10 @@
             $beer_sbl_price = $inventory_item["price"];
             $beer_id = $inventory_item["beer_id"];
             $amount = $inventory_item["amount"];
+	    $time = $inventory_item["timestamp"];
 
-            printf("<tr><td>%s</td><td>%d</td><td>%.2f</td><td>%s</td></tr>",
-                $beer_id, $amount, $beer_sbl_price, $beer_name);
+            printf("<tr><td>%s</td><td>%d</td><td>%.2f</td><td>%s</td><td>%s</td></tr>",
+                $beer_id, $amount, $beer_sbl_price, $beer_name, $time);
         }
     ?>
 
@@ -85,7 +87,9 @@
             /* Hardcode file path for now. */
             exec('bash ../tools/fetch_sbl_xml.sh');
             sbl_insert_snapshot($db, "../xml/sbl-latest.xml");
+	    printf("Latest XML file inserted<br>");
         } catch (FPDB_Exception $e) {
+	    printf("Failure...<br>");
             die($e->getMessage());
         }
     }
