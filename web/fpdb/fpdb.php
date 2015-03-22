@@ -115,8 +115,8 @@
     class FPDB_User extends FPDB_Base
     {
 	    protected $inventory_q = "
-	    SELECT NAMED.*, price FROM (
-	    	SELECT namn, namn2, volymiml AS size, prisinklmoms AS sbl_price, fp_price(prisinklmoms) AS pub_price, BEERS.beer_id, BEERS.count FROM
+	    SELECT NAMED.*, price AS sbl_price, fp_price(price) AS pub_price FROM (
+	    	SELECT namn, namn2, volymiml AS size, BEERS.beer_id, BEERS.count FROM
            		sbl_beer
             RIGHT JOIN (
     			SELECT beer_id, SUM(count) AS count FROM
