@@ -85,11 +85,19 @@
     if (isset($_POST["submit_sbl"])) {
         try {
             /* Hardcode file path for now. */
-            exec('bash ../tools/fetch_sbl_xml.sh');
-            sbl_insert_snapshot($db, "../xml/sbl-latest.xml");
-	    printf("Latest XML file inserted<br>");
+            if (!file_exists("../xml/sbl-".date("Y-m-d").".xml")) {
+                exec('bash ../tools/fetch_sbl_xml.sh');
+            } else { 
+                throw new FPDB_Exception("Already updated today.");
+            }
+            if (file_exists("../xml/sbl-".date("Y-m-d").".xml")) {
+                sbl_insert_snapshot($db, "../xml/sbl-".date("Y-m-d").".xml");
+                printf("Fresh XML file inserted<br>");
+            } else {
+                throw new FPDB_Exception("Error: sbl fetch failure.");
+            }
         } catch (FPDB_Exception $e) {
-	    printf("Failure...<br>");
+	          printf("Failure...<br>");
             die($e->getMessage());
         }
     }
