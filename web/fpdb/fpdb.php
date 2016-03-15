@@ -373,6 +373,7 @@
 
     	public function sbl_append($beer)
         {
+
             /* Systembolaget sometimes have a few duplicates in their XML file.
              * Therefore, we use REPLACE instead of INSERT to not insert
              *duplicates. */
@@ -405,25 +406,25 @@
                     $beer->nr,
                     $beer->Artikelid,
                     $beer->Varnummer,
-                    \"$beer->Namn\",
-                    \"$beer->Namn2\",
+                    \"".mysql_escape_string($beer->Namn)."\",
+                    \"".mysql_escape_string($beer->Namn2)."\",
                     $beer->Prisinklmoms,
                     $beer->Volymiml,
                     $beer->PrisPerLiter,
-                    \"$beer->Saljstart\",
-                    \"$beer->Slutlev\",
-                    \"$beer->Varugrupp\",
-                    \"$beer->Forpackning\",
-                    \"$beer->Forslutning\",
-                    \"$beer->Ursprung\",
-                    \"$beer->Ursprunglandnamn\",
-                    \"$beer->Producent\",
-                    \"$beer->Leverantor\",
-                    \"$beer->Argang\",
-                    \"$beer->Provadargang\",
-                    \"$beer->Alkoholhalt\",
-                    \"$beer->Modul\",
-                    \"$beer->Sortiment\",
+                    \"".mysql_escape_string($beer->Saljstart)."\",
+                    \"".mysql_escape_string($beer->Slutlev)."\",
+                    \"".mysql_escape_string($beer->Varugrupp)."\",
+                    \"".mysql_escape_string($beer->Forpackning)."\",
+                    \"".mysql_escape_string($beer->Forslutning)."\",
+                    \"".mysql_escape_string($beer->Ursprung)."\",
+                    \"".mysql_escape_string($beer->Ursprunglandnamn)."\",
+                    \"".mysql_escape_string($beer->Producent)."\",
+                    \"".mysql_escape_string($beer->Leverantor)."\",
+                    \"".mysql_escape_string($beer->Argang)."\",
+                    \"".mysql_escape_string($beer->Provadargang)."\",
+                    \"".mysql_escape_string($beer->Alkoholhalt)."\",
+                    \"".mysql_escape_string($beer->Modul)."\",
+                    \"".mysql_escape_string($beer->Sortiment)."\",
                     $beer->Ekologisk,
                     $beer->Koscher
                 )";
