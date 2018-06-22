@@ -90,6 +90,11 @@
             if (!$this->link) {
                 throw new FPDB_Exception(sql_error($this->link));
             }
+
+            $set_mode = sql_query($this->link, 'SET SESSION sql_mode = "TRADITIONAL"');
+            if (!$set_mode) {
+              throw new FPDB_Exception(sql_error($this->link));
+            }
         }
 
         public function query($query)
